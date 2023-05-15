@@ -317,8 +317,6 @@ export default function RegistrationPage() {
                   fontSize="16px"
                   lineHeight="19px"
                   textAlign="center"
-                  /* Muted */
-
                   color="#4B5563"
                 >
                   Already Registered?
