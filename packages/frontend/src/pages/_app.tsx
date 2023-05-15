@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 
 // THEME
 import ArtPlaceTheme from "@/theme";
+import { UserProvider } from '@/context/User';
 
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider,darkTheme  } from "@rainbow-me/rainbowkit";
@@ -62,6 +63,7 @@ function MyApp({ Component, pageProps }: AppProps<{
     
     </WagmiConfig>
   );
+    
 }
 
 export default MyApp;
