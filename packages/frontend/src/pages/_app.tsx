@@ -17,7 +17,7 @@ import {
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet, polygon, optimism, arbitrum, goerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
-
+import { UserProvider } from '@/context/User';
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mainnet,
@@ -41,6 +41,7 @@ const demoAppInfo = {
   appName: 'Rainbowkit Demo',
 };
 
+
 const connectors = connectorsForWallets([
   ...wallets,
   {
@@ -59,19 +60,20 @@ const wagmiConfig = createConfig({
   publicClient,
   webSocketPublicClient,
 });
+
+
 function MyApp({ Component, pageProps }: AppProps) {
-
- 
-
 
   return (
     <WagmiConfig config={wagmiConfig}>
       <RainbowKitProvider chains={chains}>
       <ChakraProvider theme={ArtPlaceTheme}>
-          <Component {...pageProps} />
-  </ChakraProvider>
+        <UserProvider>
+        <Component {...pageProps} />
+        </UserProvider>
+      </ChakraProvider>
       </RainbowKitProvider>
-    </WagmiConfig>
+      </WagmiConfig >
   )
 }
 
