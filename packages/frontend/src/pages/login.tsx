@@ -3,12 +3,167 @@ import nft1 from "../../assets/Rectangle 3784.png"
 import nft2 from "../../assets/Rectangle 3785.svg"
 import nft3 from "../../assets/Rectangle 3786.svg"
 import Image from "next/image"
+import { useState, useEffect } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-export default function login() {
+import { useSession } from "next-auth/react"
 
+
+
+function WindowSize(){
+  const [width, setWidth] = useState(null);
+  useEffect(()=>{
+    if (typeof window !== 'undefined') {
+      // Handler to call on window resize
+      function handleResize() {
+        // Set window width/height to state
+        setWidth(window.innerWidth);
+      }
+
+      window.addEventListener("resize", handleResize);
+
+      // Call handler right away so state gets updated with initial window size
+      handleResize();
+      
+      // Remove event listener on cleanup
+      return () =>{ window.removeEventListener("resize", handleResize);}
+    }
+  },[])
+  // console.log(width)
+ 
+  return width;
+}
+
+
+
+export default function login() {
+  const winSize=WindowSize();
+
+  const { data: session, status } = useSession()
+
+  if (status === "authenticated") {
+    console.log("redirected")
+  }else{
+    console.log("hello")
+  }
 
   return (
+    winSize<=762?
+    
+    //Mobile View
+    <Flex direction="column" w="100%" h="100%" alignItems="center" justifyContent="center">
+      <Box  w="80%"h="45%">
+        <Box display="flex" lineHeight="32px" alignItems="center" fontSize="26px" h="15%">
+          <Text>Art</Text><Text color="#FE3796">Place</Text>
+        </Box>
+        <Box lineHeight="39px"h="15%" fontWeight="600">
+          <Text fontSize="36px" >Log In To Continue</Text>
+        </Box>
+        <Box fontSize="16px"lineHeight="28px" fontWeight="400">
+          <Text>Sign a message using any of your wallet to login</Text>
+        </Box>
+        <Box h="12%"/>
+        <Box height="20%"  display="flex" alignItems="center" justifyContent="center">
+        <ConnectButton.Custom>
+    {({
+      account,
+      chain,
+      openAccountModal,
+      openChainModal,
+      openConnectModal,
+      authenticationStatus,
+      mounted,
+    }) => {
+      // Note: If your app doesn't use authentication, you
+      // can remove all 'authenticationStatus' checks
+      const ready = mounted && authenticationStatus !== 'loading';
+      const connected =
+        ready &&
+        account &&
+        chain &&
+        (!authenticationStatus ||
+          authenticationStatus === 'authenticated');
 
+      return (
+        <div style={{width:"100%",height:"100%"}}
+          {...(!ready && {
+            'aria-hidden': true,
+            'style': {
+              opacity: 0,
+              pointerEvents: 'none',
+              userSelect: 'none'
+            },
+          })}
+        >
+          {(() => {
+            if (!connected) {
+              return (
+                <button onClick={openConnectModal} type="button" style={{width:"100%",height:"100%" ,background:"#FE3796"}}>
+                  Click Here To Sign In
+                </button>
+              );
+            }
+
+            if (chain.unsupported) {
+              return (
+                <button onClick={openChainModal} type="button">
+                  Wrong network
+                </button>
+              );
+            }
+
+            return (
+              <div style={{ display: 'flex', gap: 12 }}>
+                <button
+                  onClick={openChainModal}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  type="button"
+                >
+                  {chain.hasIcon && (
+                    <div
+                      style={{
+                        background: chain.iconBackground,
+                        width: 12,
+                        height: 12,
+                        borderRadius: 999,
+                        overflow: 'hidden',
+                        marginRight: 4,
+                      }}
+                    >
+                      {chain.iconUrl && (
+                        <img
+                          alt={chain.name ?? 'Chain icon'}
+                          src={chain.iconUrl}
+                          style={{ width: 12, height: 12 }}
+                        />
+                      )}
+                    </div>
+                  )}
+                  {chain.name}
+                </button>
+
+                <button onClick={openAccountModal} type="button">
+                  {account.displayName}
+                  {account.displayBalance
+                    ? ` (${account.displayBalance})`
+                    : ''}
+                </button>
+              </div>
+            );
+          })()}
+        </div>
+      );
+    }}
+  </ConnectButton.Custom>
+        </Box>
+        <Box h="12%"/>
+        <Box display="flex" alignItems="center" justifyContent="center">
+          <Text>New User?</Text><Text color="#FE3796">Register Now</Text>
+        </Box>
+      </Box>
+    </Flex>
+     
+     :
+//Desktop View
     <Box display="flex" direction="row" w="100%" height="100%" alignItems="center" justifyContent="center">
       <Flex direction="column" w="50%" h="100%" alignItems="center" justifyContent="center">
         <Box  w="80%"h="45%">
@@ -36,6 +191,9 @@ export default function login() {
         // Note: If your app doesn't use authentication, you
         // can remove all 'authenticationStatus' checks
         const ready = mounted && authenticationStatus !== 'loading';
+        if(authenticationStatus==="auntheticated"){
+          console.log("yo!!")
+        }
         const connected =
           ready &&
           account &&
@@ -58,7 +216,7 @@ export default function login() {
               if (!connected) {
                 return (
                   <button onClick={openConnectModal} type="button" style={{width:"100%",height:"100%" ,background:"#FE3796"}}>
-                    Connect Wallet
+                    Click Here To Sign In
                   </button>
                 );
               }
@@ -114,7 +272,6 @@ export default function login() {
         );
       }}
     </ConnectButton.Custom>
-            {/* <Button background="#FE3796"  fontSize="16px" onClick={()=>{<ConnectButton/> }}variant='outline' border="0"  _hover={{ bg: 'white', color:"#FE3796" }} fontWeight="600" w="100%"h="100%">Click Here Sign In</Button> */}
           </Box>
           <Box h="12%"/>
           <Box display="flex" alignItems="center" justifyContent="center">

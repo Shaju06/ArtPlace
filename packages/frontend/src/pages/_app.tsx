@@ -2,22 +2,30 @@ import { ChakraProvider } from '@chakra-ui/react'
 import type {AppProps} from "next/app";
 // THEME
 import ArtPlaceTheme from "@/theme";
+
+//rainbow-toolkit
 import '@rainbow-me/rainbowkit/styles.css';
+import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
 import type { AppProps } from 'next/app';
+import { SessionProvider } from 'next-auth/react';
+import type { Session } from 'next-auth';
 import {
   RainbowKitProvider,
   getDefaultWallets,
   connectorsForWallets,
 } from '@rainbow-me/rainbowkit';
 import {
-  argentWallet,
+
   trustWallet,
-  ledgerWallet,
+
 } from '@rainbow-me/rainbowkit/wallets';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet, polygon, optimism, arbitrum, goerli } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import { UserProvider } from '@/context/User';
+
+
+
 const { chains, publicClient, webSocketPublicClient } = configureChains(
   [
     mainnet,
@@ -47,9 +55,7 @@ const connectors = connectorsForWallets([
   {
     groupName: 'Other',
     wallets: [
-      argentWallet({ projectId, chains }),
       trustWallet({ projectId, chains }),
-      ledgerWallet({ projectId, chains }),
     ],
   },
 ]);
@@ -62,18 +68,26 @@ const wagmiConfig = createConfig({
 });
 
 
-function MyApp({ Component, pageProps }: AppProps) {
-
+function MyApp({ Component, pageProps }: AppProps<{
+  session: Session;
+}>) {
+  const getSiweMessageOptions: GetSiweMessageOptions = () => ({
+    statement: 'Allow ArtPlace to access your account',
+  });
   return (
+      <SessionProvider refetchInterval={0} session={pageProps.session}>
     <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider chains={chains}>
-      <ChakraProvider theme={ArtPlaceTheme}>
-        <UserProvider>
-        <Component {...pageProps} />
-        </UserProvider>
-      </ChakraProvider>
-      </RainbowKitProvider>
-      </WagmiConfig >
+        <RainbowKitSiweNextAuthProvider getSiweMessageOptions={getSiweMessageOptions}>
+          <RainbowKitProvider chains={chains}>
+            <ChakraProvider theme={ArtPlaceTheme}>
+              <UserProvider>
+                <Component {...pageProps} />
+              </UserProvider>
+            </ChakraProvider>
+          </RainbowKitProvider>
+        </RainbowKitSiweNextAuthProvider>
+    </WagmiConfig >
+      </SessionProvider>
   )
 }
 
