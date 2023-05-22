@@ -1,12 +1,14 @@
-import {Heading} from "@chakra-ui/react";
-import RegistrationPage from "./registrationPage";
+import {Box, Heading} from "@chakra-ui/react";
+import Registration from "../pages/auth/register"
 
 
 export default function Home() {
-  const {user, updateUser} = useUser()
+  // const {user, updateUser} = useUser()
   return (
     <>
-     <RegistrationPage/>
+  
+     <Registration/>
+  
     </>
   )
 }
