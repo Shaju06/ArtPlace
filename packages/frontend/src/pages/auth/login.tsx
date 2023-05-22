@@ -1,7 +1,7 @@
-import { Box, Flex,Center,Heading,Text,Container,Button } from "@chakra-ui/react"
-import nft1 from "../../assets/Rectangle 3784.png"
-import nft2 from "../../assets/Rectangle 3785.svg"
-import nft3 from "../../assets/Rectangle 3786.svg"
+import { Box, Flex,Heading,Text,Button, extendTheme } from "@chakra-ui/react"
+import nft1 from "../../../assets/Rectangle 3784.png"
+import nft2 from "../../../assets/Rectangle 3785.svg"
+import nft3 from "../../../assets/Rectangle 3786.svg"
 import Image from "next/image"
 import { useState, useEffect } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -28,7 +28,7 @@ function WindowSize(){
       return () =>{ window.removeEventListener("resize", handleResize);}
     }
   },[])
-  // console.log(width)
+
  
   return width;
 }
@@ -38,30 +38,27 @@ function WindowSize(){
 export default function login() {
   const winSize=WindowSize();
 
+
   const { data: session, status } = useSession()
 
-  if (status === "authenticated") {
-    console.log("redirected")
-  }else{
-    console.log("hello")
-  }
 
   return (
-    winSize<=762?
+    winSize<=912?
     
     //Mobile View
     <Flex direction="column" w="100%" h="100%" alignItems="center" justifyContent="center">
       <Box  w="80%"h="45%">
+      <Box h="10%"/>
         <Box display="flex" lineHeight="32px" alignItems="center" fontSize="26px" h="15%">
-          <Text>Art</Text><Text color="#FE3796">Place</Text>
+          <Text fontSize="26px">Art</Text><Text fontSize="26px" color="#FE3796">Place</Text>
         </Box>
         <Box lineHeight="39px"h="15%" fontWeight="600">
-          <Text fontSize="36px" >Log In To Continue</Text>
+          <Text fontSize={["22px","28px",]} >Log In To Continue</Text>
         </Box>
         <Box fontSize="16px"lineHeight="28px" fontWeight="400">
           <Text>Sign a message using any of your wallet to login</Text>
         </Box>
-        <Box h="12%"/>
+        <Box h="10%"/>
         <Box height="20%"  display="flex" alignItems="center" justifyContent="center">
         <ConnectButton.Custom>
     {({
@@ -84,7 +81,7 @@ export default function login() {
           authenticationStatus === 'authenticated');
 
       return (
-        <div style={{width:"100%",height:"100%"}}
+        <div style={{width:"100%",height:"80%"}}
           {...(!ready && {
             'aria-hidden': true,
             'style': {
@@ -97,9 +94,9 @@ export default function login() {
           {(() => {
             if (!connected) {
               return (
-                <button onClick={openConnectModal} type="button" style={{width:"100%",height:"100%" ,background:"#FE3796"}}>
-                  Click Here To Sign In
-                </button>
+                <Button onClick={openConnectModal} borderRadius="6px" width="100%" height="100%" background="#FE3796" >
+                  Click Here Sign In
+                </Button>
               );
             }
 
@@ -157,7 +154,7 @@ export default function login() {
         </Box>
         <Box h="12%"/>
         <Box display="flex" alignItems="center" justifyContent="center">
-          <Text>New User?</Text><Text color="#FE3796">Register Now</Text>
+          <Text color="#4B5563" fontWeight="600">New User?</Text><Text fontWeight="600"  color="#FE3796">Register Now</Text>
         </Box>
       </Box>
     </Flex>
@@ -166,7 +163,8 @@ export default function login() {
 //Desktop View
     <Box display="flex" direction="row" w="100%" height="100%" alignItems="center" justifyContent="center">
       <Flex direction="column" w="50%" h="100%" alignItems="center" justifyContent="center">
-        <Box  w="80%"h="45%">
+        <Box  w="70%"h="45%">
+          <Box h="10%"/>
           <Box display="flex" lineHeight="32px" alignItems="center" fontSize="26px" h="15%">
             <Text>Art</Text><Text color="#FE3796">Place</Text>
           </Box>
@@ -215,9 +213,9 @@ export default function login() {
             {(() => {
               if (!connected) {
                 return (
-                  <button onClick={openConnectModal} type="button" style={{width:"100%",height:"100%" ,background:"#FE3796"}}>
-                    Click Here To Sign In
-                  </button>
+                  <Button onClick={openConnectModal} borderRadius="6px" width="100%" height="100%" background="#FE3796" >
+                  Click Here Sign In
+                </Button>
                 );
               }
 
@@ -273,9 +271,9 @@ export default function login() {
       }}
     </ConnectButton.Custom>
           </Box>
-          <Box h="12%"/>
+          <Box h="15%"/>
           <Box display="flex" alignItems="center" justifyContent="center">
-            <Text>New User?</Text><Text color="#FE3796">Register Now</Text>
+            <Text color="#4B5563" fontWeight="600">New User?</Text><Text fontWeight="600" color="#FE3796">Register Now</Text>
           </Box>
         </Box>
       </Flex>
@@ -283,7 +281,7 @@ export default function login() {
 
 
         <Flex magin="0" padding="0" direction="column" alignItems="center" justifyContent="center" background= "linear-gradient(180deg, #F461A7 0%, #6D0034 100%)" w="50%" h="100%">
-          <Flex direction="row" justifyContent="center" alignItems="center"  width="100%" height="65%">
+          <Flex direction="row" justifyContent="center" alignItems="center"  width="95%" height="65%">
           
             <Flex justifyContent="center" alignItems="center"  direction="column">
               <Image src={nft2} width={196.21} height={196.21}/>

@@ -1,10 +1,10 @@
-import {Heading, Button} from "@chakra-ui/react";
-import {useUser} from "@/context/User"
+import {ConnectButton} from "@rainbow-me/rainbowkit";
 export default function Home() {
-  const {user, updateUser} = useUser()
   return (
     <>
-        <Heading>ArtPlace</Heading>
+    <div>
+      <ConnectButton />
+    </div>
     </>
   )
 }
