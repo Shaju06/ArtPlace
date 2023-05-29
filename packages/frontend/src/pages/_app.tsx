@@ -1,9 +1,14 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import type { AppProps } from "next/app";
+'use client';
+import { ChakraProvider } from '@chakra-ui/react'
+import type {AppProps} from "next/app";
+import { ApolloProvider } from '@apollo/client';
+import client from '../gql';
 
 // THEME
 import ArtPlaceTheme from "@/theme";
 import { UserProvider } from '@/context/User';
+
+import '@rainbow-me/rainbowkit/styles.css';
 
 import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider,darkTheme  } from "@rainbow-me/rainbowkit";
@@ -43,27 +48,30 @@ function MyApp({ Component, pageProps }: AppProps<{
   session: Session;
 }>) {
   return (
+    <ApolloProvider client={client}>
     <WagmiConfig config={wagmiConfig}>
       <SessionProvider refetchInterval={0} session={pageProps.session}>
         <RainbowKitSiweNextAuthProvider>
       <RainbowKitProvider   
       theme={darkTheme({
       accentColor: 'transparent',
-      // accentColorForeground: 'white',
-      // borderRadius: 'medium',
+      
       fontStack: 'system',
-      // overlayBlur: 'small',
+     
     })} chains={chains}>
         <ChakraProvider theme={ArtPlaceTheme}>
-          <Component {...pageProps} />
+        <UserProvider>
+                    <Component {...pageProps} />
+                </UserProvider>
         </ChakraProvider>
       </RainbowKitProvider>
       </RainbowKitSiweNextAuthProvider>
       </SessionProvider>
     
     </WagmiConfig>
+    </ApolloProvider>
   );
-    
+  
 }
 
 export default MyApp;
