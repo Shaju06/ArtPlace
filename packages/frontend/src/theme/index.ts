@@ -20,9 +20,9 @@ const OverrideTheme = {
         height:"100%"
       },
       "#__next":{
-        height:"100%",
+        height:"100vh",
         margin:"0",
-        width:"100"
+      
       },
       "[data-rk]":{
         height:"100%",
