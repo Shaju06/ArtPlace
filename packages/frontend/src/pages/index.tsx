@@ -1,14 +1,10 @@
-import {Box, Heading} from "@chakra-ui/react";
-import Registration from "../pages/auth/register"
-
-
+import {ConnectButton} from "@rainbow-me/rainbowkit";
 export default function Home() {
-  // const {user, updateUser} = useUser()
   return (
     <>
-  
-     <Registration/>
-  
+    <div>
+      <ConnectButton />
+    </div>
     </>
   )
 }
