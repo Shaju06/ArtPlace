@@ -1,12 +1,16 @@
 'use client';
 import { ChakraProvider } from '@chakra-ui/react'
-import type {AppProps} from "next/app";
+import type { AppProps } from "next/app";
 import { ApolloProvider } from '@apollo/client';
 import client from '../gql';
-
+import { SessionProvider } from "next-auth/react"
 // THEME
 import ArtPlaceTheme from "@/theme";
 import { UserProvider } from '@/context/User';
+
+import { wagmiConfig, chains } from "@/config/provider";
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import { WagmiConfig } from "wagmi";
 
 import '@rainbow-me/rainbowkit/styles.css';
 
