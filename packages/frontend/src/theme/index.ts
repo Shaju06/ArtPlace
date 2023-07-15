@@ -2,7 +2,8 @@ import { extendTheme, theme as chakraTheme } from '@chakra-ui/react'
 
 import { Typography } from './typography'
 import { ColorPallete } from './colors'
-
+import "@fontsource/commissioner"; 
+import "@fontsource/inter";
 const OverrideTheme = {
   ...chakraTheme,
   ...Typography,
@@ -15,11 +16,10 @@ const OverrideTheme = {
       body: {
         bg: '#0D1018',
         color: 'white',
-        height: "100vh"
-      },
-      "[data-rk]": {
-        height: "100vh",
-        margin: "0",
+        fonts: {
+          body: `'Commissioner','Inter'`,
+        },
+
       },
       "[data-rk] ._9pm4ki3": {
         top: 0
